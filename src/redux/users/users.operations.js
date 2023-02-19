@@ -13,3 +13,25 @@ export const getUsers = createAsyncThunk (
         }
     }
 )
+
+export const getUser = createAsyncThunk (
+    'users/getUser', async (id, { rejectWithValue }) => {
+        try {
+            const { data } = await axios(`/users/${id}`);
+            return data;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
+
+export const deleteUser = createAsyncThunk (
+    'users/deleteUser', async (id, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.delete(`/users/${id}`);
+            return data;
+        } catch (error) {
+            return rejectWithValue(error);
+        }
+    }
+)
