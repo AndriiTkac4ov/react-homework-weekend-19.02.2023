@@ -6,6 +6,7 @@ const usersSlice = createSlice({
     initialState: { items: [], isLoading: false, isError: null, currentUser: null },
     extraReducers: builder => {
         builder
+            // getUsers
             .addCase(getUsers.pending, state => {
                 state.isLoading = true;
             })
@@ -19,7 +20,7 @@ const usersSlice = createSlice({
                 state.isError = payload;
                 state.isLoading = false;
             })
-            
+            // getUser
             .addCase(getUser.pending, state => {
                 state.isLoading = true;
             })
@@ -32,7 +33,7 @@ const usersSlice = createSlice({
                 state.isError = payload;
                 state.isLoading = false;
             })
-            
+            // deleteUser
             .addCase(deleteUser.pending, state => {
                 state.isLoading = true;
             })
