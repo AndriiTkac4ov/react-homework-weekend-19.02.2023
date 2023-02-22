@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUsers, getUser, deleteUser } from './users.operations';
+import { getUsers, getUser, deleteUser, addUser, updateUser } from './users.operations';
 
 const usersSlice = createSlice({
     name: "users",
@@ -38,11 +38,41 @@ const usersSlice = createSlice({
                 state.isLoading = true;
             })
             .addCase(deleteUser.fulfilled, (state, { payload }) => {
-                state.items = state.items.filter(item => item.id !== payload);
+                state.items = state.items.filter(item => item.id !== payload.id);
                 state.isLoading = false;
                 state.isError = null;
             })
             .addCase(deleteUser.rejected, (state, { payload }) => {
+                state.isError = payload;
+                state.isLoading = false;
+            })
+            // addUser
+            .addCase(addUser.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(addUser.fulfilled, (state, { payload }) => {
+                state.items = [...state.items, payload];
+                state.currentUser = payload;
+                state.isLoading = false;
+                state.isError = null;
+            })
+            .addCase(addUser.rejected, (state, { payload }) => {
+                state.isError = payload;
+                state.isLoading = false;
+            })
+            // updateUser
+            .addCase(updateUser.pending, state => {
+                state.isLoading = true;
+            })
+            .addCase(updateUser.fulfilled, (state, { payload }) => {
+                const indexOfUser = state.items.findIndex((user) =>
+                    user.id === payload.id
+                );
+                state.items[indexOfUser] = payload;
+                state.isLoading = false;
+                state.isError = null;
+            })
+            .addCase(updateUser.rejected, (state, { payload }) => {
                 state.isError = payload;
                 state.isLoading = false;
             })
